@@ -130,7 +130,7 @@ redhat
 ubuntu
 windows
 ```
-- Replace \<\redhat-ip\>\, \<\ubuntu-ip\>\, \<\windows-ip\>\ with your target host IPs (e.g., 10.10.10.18 for Windows).
+- Replace \<redhat-ip\>, \<ubuntu-ip\>, \<windows-ip\> with your target host IPs (e.g., 10.10.10.18 for Windows).
 - Update ansible_user and ansible_ssh_private_key_file for Linux hosts.
 - Ensure the Windows host IP matches your setup.
 
