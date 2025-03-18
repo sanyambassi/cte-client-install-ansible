@@ -155,6 +155,8 @@ Create or edit `vars/vault.yml` with encrypted credentials:
 ```bash
 ansible-vault create vars/vault.yml
 ```
+- Enter a password and confirm password when prompted.
+- In the editor, add the following contents:
 ```
 cm_username: "cm-username"
 cm_password: "cm-password"
