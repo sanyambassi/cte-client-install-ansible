@@ -1,0 +1,134 @@
+---
+- name: Install CipherTrust Transparent Encryption (CTE) Client
+  hosts: cte_clients
+  vars_files:
+    - ./vars/cte_config.yml
+    - ./vars/vault.yml
+  environment:
+    ANSIBLE_HOST_KEY_CHECKING: "False"
+
+  tasks:
+    - name: Authenticate to CipherTrust Manager and obtain JWT token
+      ansible.builtin.uri:
+        url: "https://{{ server_hostname }}/api/v1/auth/tokens/"
+        method: POST
+        headers:
+          Content-Type: "application/json"
+          Accept: "application/json"
+        body_format: json
+        body: |
+          {
+            "grant_type": "password",
+            "username": "{{ cm_username }}",
+            "password": "{{ cm_password }}",
+            "domain": "{{ cm_domain }}"
+          }
+        validate_certs: no
+        status_code: 200
+      delegate_to: localhost
+      register: auth_response
+      no_log: true
+
+    - name: Create registration token via REST API
+      ansible.builtin.uri:
+        url: "https://{{ server_hostname }}/api/v1/client-management/regtokens/"
+        method: POST
+        headers:
+          Authorization: "Bearer {{ auth_response.json.jwt }}"
+          Content-Type: "application/json"
+          Accept: "application/json"
+        body_format: json
+        body: |
+          {
+            "client_management_profile_id": "{{ client_profile_default }}",
+            "lifetime": "{{ lifetime }}",
+            "max_clients": {{ max_clients }},
+            "name_prefix": "{{ name_prefix }}"
+          }
+        validate_certs: no
+        status_code: 201
+      delegate_to: localhost
+      register: regtoken_response
+      no_log: true
+
+    - name: Gather OS facts
+      ansible.builtin.setup:
+        gather_subset: "!all,distribution"
+
+    - name: Set installer and answerfile paths based on OS
+      ansible.builtin.set_fact:
+        installer_src: >-
+          {{
+            'vee-fs-7.7.0-100-rh9-x86_64.bin' if ansible_distribution == 'RedHat' else
+            'vee-fs-7.7.0-100-ubuntu22-x86_64.bin' if ansible_distribution == 'Ubuntu' else
+            'vee-fs-7.7.0-104-win64.msi'
+          }}
+        installer_dest: >-
+          {{
+            '/tmp/vee-fs-7.7.0-100-rh9-x86_64.bin' if ansible_distribution == 'RedHat' else
+            '/tmp/vee-fs-7.7.0-100-ubuntu22-x86_64.bin' if ansible_distribution == 'Ubuntu' else
+            'C:\Temp\vee-fs-7.7.0-104-win64.msi'
+          }}
+        answerfile_dest: >-
+          {{ '/tmp/answerfile.txt' if ansible_distribution in ['RedHat', 'Ubuntu'] else '' }}
+
+    - name: Create answerfile content (Linux only)
+      ansible.builtin.set_fact:
+        answerfile_content: |
+          SERVER_HOSTNAME={{ server_hostname }}
+          AGENT_HOST_NAME={{ ansible_hostname }}
+          ENABLE_LDT={{ enable_ldt }}
+          HOST_DESC="{{ host_desc_default | default(ansible_hostname) }}"
+          HOST_PROFILE="{{ cte_client_profile_default }}"
+          REG_TOKEN={{ regtoken_response.json.token }}
+      when: ansible_distribution in ['RedHat', 'Ubuntu']
+
+    - name: Copy installer to remote host (Linux)
+      ansible.builtin.copy:
+        src: "./files/{{ installer_src }}"
+        dest: "{{ installer_dest }}"
+        mode: "0755"
+      when: ansible_distribution in ['RedHat', 'Ubuntu']
+
+    - name: Copy installer to remote host (Windows)
+      ansible.windows.win_copy:
+        src: "./files/{{ installer_src }}"
+        dest: "{{ installer_dest }}"
+      when: ansible_os_family == 'Windows'
+
+    - name: Copy answerfile to remote host (Linux only)
+      ansible.builtin.copy:
+        content: "{{ answerfile_content }}"
+        dest: "{{ answerfile_dest }}"
+        mode: "0644"
+      when: ansible_distribution in ['RedHat', 'Ubuntu']
+
+    - name: Apply Red Hat tasks
+      include_role:
+        name: redhat
+      when: ansible_distribution == 'RedHat'
+
+    - name: Apply Ubuntu tasks
+      include_role:
+        name: ubuntu
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Apply Windows tasks
+      include_role:
+        name: windows
+      when: ansible_os_family == 'Windows'
+
+    - name: Remove installer and answerfile (Linux)
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ installer_dest }}"
+        - "{{ answerfile_dest }}"
+      when: ansible_distribution in ['RedHat', 'Ubuntu']
+
+    - name: Remove installer (Windows)
+      ansible.windows.win_file:
+        path: "{{ installer_dest }}"
+        state: absent
+      when: ansible_os_family == 'Windows'
