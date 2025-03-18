@@ -1,0 +1,11 @@
+- name: Install CTE agent on Windows
+  ansible.windows.win_command:
+    cmd: 'msiexec.exe /i {{ installer_dest }} /qn registerhostopts="{{ server_hostname }} -agent={{ ansible_hostname }}.mydomain.com -token={{ regtoken_response.json.token }} -description={{ host_desc_default | default(ansible_hostname) | replace('' '', ''_'') }}"'
+  register: win_install
+  failed_when: win_install.rc != 0 and win_install.rc != 1641
+
+- name: Wait for Windows host to reboot and come back online
+  ansible.builtin.wait_for_connection:
+    timeout: 600
+    delay: 30
+  when: win_install.rc == 1641
