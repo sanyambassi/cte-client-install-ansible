@@ -1,0 +1,10 @@
+- name: Install libnsl2 on Ubuntu
+  ansible.builtin.apt:
+    name: libnsl2
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install CTE agent on Ubuntu
+  ansible.builtin.command: "{{ installer_dest }} -s {{ answerfile_dest }}"
+  become: yes
