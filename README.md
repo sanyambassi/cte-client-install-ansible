@@ -193,7 +193,9 @@ From the `cte-client-install-ansible/` directory:
 ```bash
 ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass -v
 ```
--- where
+
+where
+
 ```
 -i inventory.ini: Specifies the inventory file.
 --ask-vault-pass: Prompts for the vault password.
