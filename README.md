@@ -192,9 +192,10 @@ From the `cte-client-install-ansible/` directory:
 ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass -v
 ```
 ```
+where
 -i inventory.ini: Specifies the inventory file.
 --ask-vault-pass: Prompts for the vault password.
--v: Verbose output for debugging.
+-v: Verbose output for debugging (or use -vvvv).
 ```
 
 #### What It Does
