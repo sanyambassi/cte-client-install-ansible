@@ -183,7 +183,8 @@ These can be downloaded from the Thales support portal. Update the **playbook.ym
   - Enable SSH and allow port 22 in the firewall.
   - Ensure the user has sudo privileges as the CTE client can only be installed as the root user.
 - **Windows**:
-  - Configure WinRM for NTLM and ensure the user has Administrator rights on the system. 
+  - Configure WinRM for NTLM and ensure the user has Administrator rights on the system.
+  - Create C:\\Temp directory for temporarily copying the CTE client installer. Or update **playbook.yml** with a location that exists on the windows host.
 
 ## Usage
 
