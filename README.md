@@ -99,7 +99,8 @@ git clone https://github.com/sanyambassi/cte-client-install-ansible.git
 
 Edit inventory.ini to match your environment:
 
-```[redhat]
+```
+[redhat]
 redhat-host1 ansible_host=<redhat-ip> ansible_user=<redhat-user> ansible_ssh_private_key_file=/path/to/redhat_key
 
 [redhat:vars]
