@@ -1,8 +1,8 @@
-server_hostname: "10.10.10.14"
-client_profile_default: "4099bb49-a81c-4874-ab04-c117fce7e4ba"
-cte_client_profile_default: "Pro01"
+server_hostname: "your-ciphertrust-manager-host"
+client_profile_default: "id-of-the-client-profile"
+cte_client_profile_default: "name-of-cte-client-profile"
 lifetime: "1d"
 max_clients: 1
 name_prefix: "ansible_token"
 enable_ldt: 1
-host_desc_default: "Client installed with Ansible"
+host_desc_default: "Client Installed with Ansible"
