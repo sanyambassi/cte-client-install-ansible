@@ -217,7 +217,7 @@ TASK [Gathering Facts] *****************************************
 ok: [windows-host1]
 TASK [Authenticate to CipherTrust Manager and obtain JWT token]
 ok: [windows-host1 -> localhost]
-...
+```
 
 ## Contributing
 
