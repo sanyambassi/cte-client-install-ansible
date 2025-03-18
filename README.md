@@ -45,6 +45,7 @@ Before using this playbook, ensure the following:
   - SSH server running (sudo systemctl enable --now sshd).
   - User with sudo privileges (password or public key authentication).
   - Network access to the control node and CipherTrust Manager.
+  - **SSH host keys for the Linux hosts must be pre-added to the known_hosts file on the ansible control node**. If not added, you'd be prompted accept those keys. 
 - **Windows**:
   - WinRM configured for HTTP (port 5985) or HTTPS (port 5986) with NTLM authentication.
   - Administrator account with known password.
