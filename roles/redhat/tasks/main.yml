@@ -1,0 +1,9 @@
+- name: Install libnsl2 on Red Hat
+  ansible.builtin.yum:
+    name: libnsl2
+    state: present
+  become: yes
+
+- name: Install CTE agent on Red Hat
+  ansible.builtin.command: "{{ installer_dest }} -s {{ answerfile_dest }}"
+  become: yes
