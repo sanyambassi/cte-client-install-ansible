@@ -130,7 +130,7 @@ redhat
 ubuntu
 windows
 ```
-- Replace "<redhat-ip>, <ubuntu-ip>, <windows-ip>" with your target host IPs (e.g., 10.10.10.18 for Windows).
+- Replace \<\redhat-ip\>\, \<\ubuntu-ip\>\, \<\windows-ip\>\ with your target host IPs (e.g., 10.10.10.18 for Windows).
 - Update ansible_user and ansible_ssh_private_key_file for Linux hosts.
 - Ensure the Windows host IP matches your setup.
 
@@ -163,7 +163,7 @@ ansible_become_password: "your-sudo-password"
 ansible_winrm_user: "your-administrator-user"
 ansible_winrm_password: "your-windows-password"
 ```
-- Note: if using a domain user for Windows hosts, escapte the \ separator. For example, "domain\\username"
+- Note: if using a domain user for Windows hosts, escapte the \ separator. For example, "domain\\\username"
 
 ### 5. Add Installer Files
 
@@ -178,11 +178,10 @@ These can be downloaded from the Thales support portal. Update the **playbook.ym
 ### 6. Configure Target Hosts
 
 - **Linux (Red Hat/Ubuntu)**:
-  - Enable SSH
-  - Allow port 22 in the firewall.
+  - Enable SSH and allow port 22 in the firewall.
   - Ensure the user has sudo privileges as the CTE client can only be installed as the root user.
 - **Windows**:
-  - Configure WinRM for NTLM:
+  - Configure WinRM for NTLM and ensure the user has Administrator rights on the system. 
 
 ## Usage
 
@@ -192,8 +191,8 @@ From the `cte-client-install-ansible/` directory:
 ```bash
 ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass -v
 ```
+- where
 ```
-where
 -i inventory.ini: Specifies the inventory file.
 --ask-vault-pass: Prompts for the vault password.
 -v: Verbose output for debugging (or use -vvvv).
@@ -208,7 +207,7 @@ where
 - Deletes the installer and the answerfile.
 
 **Example Output**
-
+```
 PLAY [Install CipherTrust Transparent Encryption (CTE) Client]
 TASK [Gathering Facts] *****************************************
 ok: [windows-host1]
