@@ -1,0 +1,8 @@
+server_hostname: "10.10.10.14"
+client_profile_default: "4099bb49-a81c-4874-ab04-c117fce7e4ba"
+cte_client_profile_default: "Pro01"
+lifetime: "1d"
+max_clients: 1
+name_prefix: "ansible_token"
+enable_ldt: 1
+host_desc_default: "Client installed with Ansible"
