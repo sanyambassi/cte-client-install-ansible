@@ -70,11 +70,11 @@ cte-client-install-ansible/
 ├── playbook.yml           # Main playbook orchestrating the installation
 ├── inventory.ini          # Inventory file defining target hosts
 ├── vars/
-│   ├── cte_config.yml     # Non-sensitive configuration variables
+│   └── cte_config.yml     # Non-sensitive configuration variables
 │   └── vault.yml          # Encrypted sensitive variables (Ansible Vault)
 ├── files/
-│   ├── vee-fs-7.7.0-100-rh9-x86_64.bin    # Red Hat installer (placeholder)
-│   ├── vee-fs-7.7.0-100-ubuntu22-x86_64.bin  # Ubuntu installer (placeholder)
+│   └── vee-fs-7.7.0-100-rh9-x86_64.bin    # Red Hat installer (placeholder)
+│   └── vee-fs-7.7.0-100-ubuntu22-x86_64.bin  # Ubuntu installer (placeholder)
 │   └── vee-fs-7.7.0-104-win64.msi         # Windows installer (placeholder)
 └── roles/
 |   └── redhat/
