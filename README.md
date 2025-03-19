@@ -77,15 +77,15 @@ cte-client-install-ansible/
 │   ├── vee-fs-7.7.0-100-ubuntu22-x86_64.bin  # Ubuntu installer (placeholder)
 │   └── vee-fs-7.7.0-104-win64.msi         # Windows installer (placeholder)
 └── roles/
-├── redhat/
-│   └── tasks/
-│       └── main.yml   # Red Hat-specific installation tasks
-├── ubuntu/
-│   └── tasks/
-│       └── main.yml   # Ubuntu-specific installation tasks
-└── windows/
-└── tasks/
-└── main.yml   # Windows-specific installation tasks
+|   └── redhat/
+│       └── tasks/
+│           └── main.yml   # Red Hat-specific installation tasks
+|    └── ubuntu/
+│        └── tasks/
+│            └── main.yml   # Ubuntu-specific installation tasks
+|    └── windows/
+         └── tasks/
+             └── main.yml   # Windows-specific installation tasks
 ```
 
 **Note**: The files/ directory is a placeholder. Users must supply their own CTE installers.
