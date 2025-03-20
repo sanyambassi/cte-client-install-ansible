@@ -36,7 +36,7 @@ Before using this playbook, ensure the following:
 ### Software Requirements
 
 - **Ansible**: Version 2.9 or later (install via pip install ansible or your package manager).
-- **Python**: Required on the control node (where Ansible runs) and Linux targets (for SSH).
+- **Python**: Required on the Ansible control node.
 - **WinRM**: Python pywinrm module for Windows hosts (pip install pywinrm).
 
 ### Target Host Requirements
